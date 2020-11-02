@@ -1,0 +1,58 @@
+import { createRouter, createWebHistory } from "vue-router";
+import TopPage from "../views/TopPage.vue";
+import TypingPage from "../views/TypingPage.vue";
+import ScorePage from "../views/ScorePage.vue";
+const routes = [
+  {
+    path: "/",
+    name: "TopPage",
+    component: TopPage,
+  },
+  {
+    path: "/typing",
+    name: "TypingPage",
+    component: TypingPage,
+    // props: true はpassname:route.params.passnameのシンタックス
+    props: (route) => ({
+      gameMode: route.query.gameMode,
+      gameSection: route.query.gameSection,
+      keyboard: route.query.keyboard,
+    }),
+  },
+  {
+    path: "/score",
+    name: "ScorePage",
+    component: ScorePage,
+    props: (route) => ({
+      resultScore: Number(route.query.resultScore),
+    }),
+  },
+  {
+    path: "/login/:nextPage*",
+    name: "LoginPage",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/LoginPage.vue"),
+  },
+  {
+    path: "/signin/:nextPage*",
+    name: "SigninPage",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SigninPage.vue"),
+  },
+  {
+    path: "/logout",
+    name: "LogoutPage",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/LogoutPage.vue"),
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
+
+export default router;
