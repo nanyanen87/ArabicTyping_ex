@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />
     <h1>arabic typing</h1>
     <div class="modeSelectBox">
       <div class="bookMode">
@@ -7,22 +8,22 @@
           長文モード
         </p>
         <div v-show="!isMouseOver" v-on:mouseleave="mouseLeave()">
-          <p v-on:click="startGame">タイトル１</p>
-          <p v-on:click="startGame">タイトル２</p>
-          <p v-on:click="startGame">タイトル３</p>
+          <p v-on:click="startGame" class="button">タイトル１</p>
+          <p v-on:click="startGame" class="button">タイトル２</p>
+          <p v-on:click="startGame" class="button">タイトル３</p>
         </div>
       </div>
       <div class="wordMode">
         <p>単語モード</p>
         <div v-show="false">
-          <p v-on:click="startGame">hard</p>
-          <p v-on:click="startGame">normal</p>
-          <p v-on:click="startGame">eazy</p>
+          <p v-on:click="startGame" class="button">hard</p>
+          <p v-on:click="startGame" class="button">normal</p>
+          <p v-on:click="startGame" class="button">eazy</p>
         </div>
       </div>
       <div class="keyboard">
-        <p @click="setKeyboard">mac</p>
-        <p @click="setKeyboard">ibm</p>
+        <p @click="setKeyboard" class="button">mac</p>
+        <p @click="setKeyboard" class="button">ibm</p>
       </div>
     </div>
     <div>ようこそ {{ userName }}</div>
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+import Header from "../components/Header";
 export default {
   name: "TopPage",
   data() {
@@ -47,10 +49,14 @@ export default {
       .get("/controllers/session")
       .then((res) => {
         this.userName = res.data.userName;
+        //ここでheaderの中身を変更する？
       })
       .catch((error) => {
         console.log(error);
       });
+  },
+  components: {
+    Header,
   },
   methods: {
     mouseEnter(mode) {
@@ -80,4 +86,11 @@ export default {
 </script>
 
 <style>
+.keyboard p {
+  display: inline-block;
+  padding: 0 5px;
+}
+.button {
+  cursor: pointer;
+}
 </style>

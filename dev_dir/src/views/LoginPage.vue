@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />
     <h1>ログイン画面</h1>
     <div>
       <form @submit.prevent="checkForm" method="post">
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import Header from "../components/Header";
 export default {
   name: "LoginPage",
   data() {
@@ -40,6 +42,9 @@ export default {
       password: "guestNo1",
       errors: [],
     };
+  },
+  components: {
+    Header,
   },
   methods: {
     checkForm() {
@@ -55,8 +60,7 @@ export default {
           .post("/controllers/login", params)
           .then((res) => {
             console.log(res.data);
-          //headerのリロードorヘッダーを格ページにimportする
-
+            //headerのリロードorヘッダーを格ページにimportする
           })
           .catch((error) => {
             console.log("エラーです");

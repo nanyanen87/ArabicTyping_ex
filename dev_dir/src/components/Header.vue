@@ -29,6 +29,7 @@ export default {
         console.log(error);
       });
   },
-  methods: {},
+  methods: {
+  },
 };
 </script>

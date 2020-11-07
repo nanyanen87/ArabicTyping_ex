@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />
     <h1>サインイン画面</h1>
     <div>
       <form @submit.prevent="checkForm" method="post">
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import Header from "../components/Header";
 export default {
   name: "LoginPage",
   data() {
@@ -37,6 +39,9 @@ export default {
       password: "",
       errors: [],
     };
+  },
+  components: {
+    Header,
   },
   methods: {
     checkForm() {
