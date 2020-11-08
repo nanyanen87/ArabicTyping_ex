@@ -38,6 +38,7 @@ export default {
       email: "",
       password: "",
       errors: [],
+      user: { session: true },
     };
   },
   components: {

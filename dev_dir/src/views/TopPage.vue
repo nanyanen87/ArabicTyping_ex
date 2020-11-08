@@ -3,7 +3,7 @@
     <Header />
     <h1>arabic typing</h1>
     <div class="modeSelectBox">
-      <div class="bookMode">
+      <div class="bookMode modeBox">
         <p v-show="isMouseOver" v-on:mouseenter="mouseEnter('bookMode')">
           長文モード
         </p>
@@ -13,7 +13,7 @@
           <p v-on:click="startGame" class="button">タイトル３</p>
         </div>
       </div>
-      <div class="wordMode">
+      <div class="wordMode modeBox">
         <p>単語モード</p>
         <div v-show="false">
           <p v-on:click="startGame" class="button">hard</p>
@@ -86,6 +86,10 @@ export default {
 </script>
 
 <style>
+.modeBox {
+  display: inline-block;
+  padding: 5px;
+}
 .keyboard p {
   display: inline-block;
   padding: 0 5px;

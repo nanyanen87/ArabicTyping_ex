@@ -17,7 +17,6 @@
         <!-- コンポーネントにして間にカウントダウンページを挟む？ -->
       </div>
       <p>keyboard:{{ keyboard }}</p>
-      <button @click="countScore">カウント:{{ score }}</button>
       <button @click="endGame">終了</button>
     </div>
   </div>
@@ -31,7 +30,7 @@ export default {
   data() {
     return {
       sentence: [],
-      score: 0,
+      score: { startTime: 0, endTime: 0, resultScore: 0 },
       waiting: true,
     };
   },
@@ -63,22 +62,20 @@ export default {
   methods: {
     startGame() {
       this.waiting = false;
-      //タイマースタート、キー入力待ち受け
+      //タイマースタート
+      this.score.startTime = new Date();
+      // キー入力待ち受け
+
       document.addEventListener("keypress", (e) => {
         console.log(e.key);
+        //タイピング入力処理
+        //問題文配列のlength === nowSentenceNum ! endGame()
       });
-      //問題文配列のlength === nowSentenceNum ! endGame()
-    },
-    countScore() {
-      this.score++;
-      let nowSetenceNum = this.score; //本来はタイピング終わった文章の数
-      if (this.sentence.length === nowSetenceNum) {
-        this.endGame();
-      }
     },
     endGame() {
-      //
-      const URL = `/score?resultScore=${this.score}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}`;
+      this.score.endTime = new Date();
+      this.score.resultScore = this.score.endTime - this.score.startTime;
+      const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}`;
       this.$router.push(URL);
     },
   },

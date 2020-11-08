@@ -60,7 +60,7 @@ export default {
           .post("/controllers/login", params)
           .then((res) => {
             console.log(res.data);
-            //headerのリロードorヘッダーを格ページにimportする
+            this.user.session = true;
           })
           .catch((error) => {
             console.log("エラーです");

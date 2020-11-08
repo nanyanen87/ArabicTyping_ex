@@ -9,8 +9,8 @@ class User
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $pdo->exec("create table if not exists userData(
         id int not null auto_increment primary key,
-        email varchar(255),
-        password varchar(255),
+        email nvarchar(255),
+        password nvarchar(255),
         created timestamp not null default current_timestamp
       )");
     } catch (Exception $e) {
