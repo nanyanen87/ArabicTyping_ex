@@ -7,13 +7,13 @@
       <!-- <h2>{{$route.params.bookTitle}}</h2> -->
       <!-- <h2>{{bookTitle}}</h2> -->
       <div class="sentenceBox">
-        <div>{{ gameSection }}</div>
+        <div>{{ nowSentence }}</div>
       </div>
       <div>
         <WaitGame class="upperLayer" @start-game="startGame" v-if="waiting" />
       </div>
-      <div>
-        {{ sentence[0] }}
+      <div class="inputBox">
+        {{ inputSentence }}
         <!-- コンポーネントにして間にカウントダウンページを挟む？ -->
       </div>
       <p>keyboard:{{ keyboard }}</p>
@@ -29,7 +29,9 @@ export default {
   name: "TypingPage",
   data() {
     return {
-      sentence: [],
+      sentenceOrg: [],
+      nowSentence: "",
+      inputSentence: "",
       score: { startTime: 0, endTime: 0, resultScore: 0 },
       waiting: true,
     };
@@ -48,7 +50,8 @@ export default {
       })
       .then((res) => {
         console.log(res.data);
-        this.sentence = ["hoge", "piyo", "fuga"];
+        //配列でデータを取ってくる
+        this.sentenceOrg = ["hoge", "piyo", "fuga"];
       })
       .catch((error) => {
         console.log("エラーです");
@@ -62,19 +65,33 @@ export default {
   methods: {
     startGame() {
       this.waiting = false;
-      //タイマースタート
       this.score.startTime = new Date();
-      // キー入力待ち受け
+
+      let nowCharLocation = 0;
+      let nowQuestion = 0;
+      this.nowSentence = this.sentenceOrg[nowQuestion];
 
       document.addEventListener("keypress", (e) => {
-        console.log(e.key);
-        //タイピング入力処理
-        //問題文配列のlength === nowSentenceNum ! endGame()
+        //error 0が定義されていない
+        if (this.sentenceOrg[nowQuestion][nowCharLocation] === e.key) {
+          this.inputSentence += e.key;
+          nowCharLocation++;
+        }
+        if (this.sentenceOrg[nowQuestion].length === nowCharLocation) {
+          nowQuestion++;
+          this.nowSentence = this.sentenceOrg[nowQuestion];
+          this.inputSentence = "";
+          nowCharLocation = 0;
+        }
+        if (this.sentenceOrg.length === nowQuestion) {
+          this.endGame();
+        }
       });
     },
     endGame() {
       this.score.endTime = new Date();
       this.score.resultScore = this.score.endTime - this.score.startTime;
+      //リトライとスコア登録のためにプロパティを全部維持しないと
       const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}`;
       this.$router.push(URL);
     },

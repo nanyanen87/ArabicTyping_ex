@@ -20,6 +20,12 @@ export default {
   components: {
     Header,
   },
+  mounted: function () {
+    document.addEventListener("keypress", (e) => {
+      console.log(e.code);
+      //前までのモードを維持してリトライ
+    });
+  },
   methods: {
     entryRanking() {
       // this.loginCheck();
