@@ -30,7 +30,7 @@ class User
     }
     //登録処理
     try {
-      $stmt = $pdo->prepare("insert into userData(email, password) value(?, ?)");
+      $stmt = $pdo->prepare("insert into userData(email, password) values(?, ?)");
       $stmt->execute([$email, $password]);
       echo '登録完了';
       //loginして元のページに戻る

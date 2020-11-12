@@ -46,8 +46,23 @@ export default {
       console.log("check");
       this.$router.push(`/login/score/${this.$route.query.resultScore}`);
     },
-    share() {
+    shareInTwitter() {
       console.log("tweet");
+      //文章登録お試し
+      const params = new URLSearchParams();
+      params.append("title", "タイトル１");
+      params.append("paragraphNum", 1);
+      params.append("sentenceNum", 2);
+      params.append("sentence", "文章２");
+
+      this.axios
+        .post("/controllers/register", params)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

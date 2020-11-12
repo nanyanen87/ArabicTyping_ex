@@ -12,9 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 if ($_GET["gameMode"] == "book") {
   $title = $_GET["gameSection"];
+  //urlを直接指定しないとエラー出るかも
   require_once(__DIR__ . "/../models/book");
-  $book = new Book();
-  echo $book->getSentence($title);
+  $book = new Book($title);
+  // echo $book->getSentence();
+  echo "hahaha";
 } elseif ($_GET["gameMode"] == "word") {
   $difficulty = $_GET["gameSection"];
   require_once(__DIR__ . "/../models/word");
