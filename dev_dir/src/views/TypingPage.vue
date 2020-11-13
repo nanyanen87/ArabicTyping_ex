@@ -45,13 +45,15 @@ export default {
     this.axios
       .get("/controllers/game", {
         params: {
+          gameMode: this.$route.query.gameMode,
           gameSection: this.$route.query.gameSection,
         },
       })
       .then((res) => {
         console.log(res.data);
         //配列でデータを取ってくる
-        this.sentenceOrg = ["hoge", "piyo", "fuga"];
+        // this.sentenceOrg = ["hoge", "piyo", "fuga"];
+        this.sentenceOrg = res.data;
       })
       .catch((error) => {
         console.log("エラーです");
@@ -107,7 +109,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: aqua;
+  background-color: #E33E2B;
   /* opacity: 0.7; */
   height: 400px;
   width: 400px;

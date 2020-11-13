@@ -1,22 +1,22 @@
 <?php
-//わざわざ一つのファイルにまとめず、gameStartControllerとgameEndControllerに分けるべき？
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  $gameSection = htmlspecialchars($_GET["gameSection"], ENT_QUOTES);
-  echo "「" . $gameSection . "」が届いたぜよ。";
-  return;
-} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $resultScore = htmlspecialchars($_POST["resultScore"], ENT_QUOTES);
-  echo "[" . $resultScore . "]が届いたぜよ。";
-  return;
-}
+// わざわざ一つのファイルにまとめず、gameStartControllerとgameEndControllerに分けるべき？
+// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+//   $gameSection = htmlspecialchars($_GET["gameSection"], ENT_QUOTES);
+//   echo "「" . $gameSection . "」が届いたぜよ。";
+//   return;
+// } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//   $resultScore = htmlspecialchars($_POST["resultScore"], ENT_QUOTES);
+//   echo "[" . $resultScore . "]が届いたぜよ。";
+//   return;
+// }
 
-if ($_GET["gameMode"] == "book") {
+if ($_GET["gameMode"] == "bookMode") {
   $title = $_GET["gameSection"];
   //urlを直接指定しないとエラー出るかも
-  require_once(__DIR__ . "/../models/book");
+  require_once(__DIR__ . "/../models/Book.php");
   $book = new Book($title);
-  // echo $book->getSentence();
-  echo "hahaha";
+  echo $book->getSentence();
+  // echo $title;
 } elseif ($_GET["gameMode"] == "word") {
   $difficulty = $_GET["gameSection"];
   require_once(__DIR__ . "/../models/word");

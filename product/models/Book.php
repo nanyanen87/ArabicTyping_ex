@@ -16,14 +16,19 @@ class Book
       require_once(__DIR__ . '/../data/config.php');
       $pdo = new PDO(DSN, DB_USER, DB_PASS);
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      //order by使う必要あるかな？デフォルトで綺麗に並んでるからいらん気もする
       $sqlstatement = "SELECT * from bookTable where title = ?";
       $preparedStatement = $pdo->prepare($sqlstatement);
       $preparedStatement->execute([$this->bookTitle]);
-      //bookTextにforeachを使って代入
+
+      //必要な形に整形。今回は順番にテキストを並べるだけでいい
+      foreach ($preparedStatement->fetchAll() as $row) {
+        $this->bookText[] = $row["sentenceText"];
+      }
     } catch (Exception $e) {
       echo $e->getMessage();
     }
-    return $this->bookText;
+    return json_encode($this->bookText);
   }
   public function insertSentence($pragraphNum, $sentenceNum, $sentence)
   {
@@ -39,8 +44,7 @@ class Book
     //本文登録処理
     //try{}の中身はスコープしない？
     try {
-      $sqlStatement = "insert into bookTable(title,paragraphNumber,sentenceNumber,sentenceText) values(?,?,?,?)";
-      // ON DUPLICATE KEY UPDATE title=values(title),paragraphNumber=values(paragraphNumber),sentenceNumber=values(sentenceNumber),sentenceText=values(sentenceText);
+      $sqlStatement = "insert into bookTable(title,paragraphNumber,sentenceNumber,sentenceText) values(?,?,?,?) ON DUPLICATE KEY UPDATE title=values(title),paragraphNumber=values(paragraphNumber),sentenceNumber=values(sentenceNumber),sentenceText=values(sentenceText)";
       $preparedStatement = $pdo->prepare($sqlStatement);
       $preparedStatement->execute(array($this->bookTitle, $pragraphNum, $sentenceNum, $sentence));
     } catch (Exception $e) {
@@ -50,5 +54,7 @@ class Book
 
     return;
   }
-  public function updateSentence(){}
+  public function updateSentence()
+  {
+  }
 }
