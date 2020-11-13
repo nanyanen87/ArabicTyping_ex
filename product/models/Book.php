@@ -40,6 +40,7 @@ class Book
     //try{}の中身はスコープしない？
     try {
       $sqlStatement = "insert into bookTable(title,paragraphNumber,sentenceNumber,sentenceText) values(?,?,?,?)";
+      // ON DUPLICATE KEY UPDATE title=values(title),paragraphNumber=values(paragraphNumber),sentenceNumber=values(sentenceNumber),sentenceText=values(sentenceText);
       $preparedStatement = $pdo->prepare($sqlStatement);
       $preparedStatement->execute(array($this->bookTitle, $pragraphNum, $sentenceNum, $sentence));
     } catch (Exception $e) {
@@ -49,4 +50,5 @@ class Book
 
     return;
   }
+  public function updateSentence(){}
 }
