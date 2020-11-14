@@ -16,14 +16,20 @@ export default {
   name: "ScorePage",
   props: {
     resultScore: Number,
+    gameMode: String,
+    gameSection: String,
+    keyboard: String,
   },
   components: {
     Header,
   },
   mounted: function () {
-    document.addEventListener("keypress", (e) => {
-      console.log(e.code);
-      //前までのモードを維持してリトライ
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Escape") {
+        console.log("retry");
+        const URL = `/typing?gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}&keyboard=${this.$route.query.keyboard}`;
+        this.$router.push(URL);
+      }
     });
   },
   methods: {

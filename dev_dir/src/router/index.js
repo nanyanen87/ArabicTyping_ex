@@ -24,6 +24,9 @@ const routes = [
     name: "ScorePage",
     component: ScorePage,
     props: (route) => ({
+      gameMode: route.query.gameMode,
+      gameSection: route.query.gameSection,
+      keyboard: route.query.keyboard,
       resultScore: Number(route.query.resultScore),
     }),
   },
@@ -42,11 +45,10 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/SigninPage.vue"),
   },
   {
-    path:"/register",
-    name:"RegisterPage",
-    props:true,
-    component:()=>
-    import("../views/RegisterPage.vue"),
+    path: "/register",
+    name: "RegisterPage",
+    props: true,
+    component: () => import("../views/RegisterPage.vue"),
   },
   {
     path: "/logout",

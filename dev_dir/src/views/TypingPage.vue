@@ -94,7 +94,7 @@ export default {
       this.score.endTime = new Date();
       this.score.resultScore = this.score.endTime - this.score.startTime;
       //リトライとスコア登録のためにプロパティを全部維持しないと
-      const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}`;
+      const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}&keyboard=${this.$route.query.keyboard}`;
       this.$router.push(URL);
     },
   },
