@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>待機画面です</p>
     <p>スペースキーでスタート</p>
   </div>
 </template>
@@ -20,4 +19,8 @@ export default {
 </script>
 
 <style scoped>
+p {
+  color: aliceblue;
+  font-weight: bold;
+}
 </style>
