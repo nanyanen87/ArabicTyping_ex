@@ -2,8 +2,17 @@
   <div>
     <div>
       headerです<router-link to="/">top</router-link> |
-      <router-link to="/login" v-show="!sessionStart">login</router-link> |
-      <router-link to="/signin" v-show="!sessionStart">signin</router-link>
+      <router-link
+        :to="{ name: 'LoginPage', params: { nextPage: '/' } }"
+        v-show="!sessionStart"
+        >login</router-link
+      >
+      |
+      <router-link
+        :to="{ name: 'SigninPage', params: { nextPage: '/' } }"
+        v-show="!sessionStart"
+        >signin</router-link
+      >
       <router-link to="/logout" v-show="sessionStart">logout</router-link>
     </div>
   </div>
@@ -28,6 +37,8 @@ export default {
         console.log(error);
       });
   },
-  methods: {},
+  methods: {
+    onclick() {},
+  },
 };
 </script>

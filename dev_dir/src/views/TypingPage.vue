@@ -82,10 +82,8 @@ export default {
           this.inputSentence += e.key;
           nowCharLocation++;
           correctCounts++;
-          console.log("正しく打った数：" + correctCounts);
         } else {
           missCounts++;
-          console.log("間違えて打った数：" + missCounts);
         }
         if (this.sentenceOrg[nowQuestion].length === nowCharLocation) {
           nowQuestion++;

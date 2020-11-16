@@ -1,7 +1,7 @@
 <?php
 class User
 {
-  public function signin()
+  public function signin($e, $p)
   {
     require_once(__DIR__ . '/../data/config.php');
     try {
@@ -17,13 +17,13 @@ class User
       echo $e->getMessage() . PHP_EOL;
     }
     //POSTのValidate。
-    if (!$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if (!$email = filter_var($e, FILTER_VALIDATE_EMAIL)) {
       echo '入力された値が不正です。';
       return false;
     }
     //パスワードの正規表現
-    if (preg_match('/\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}+\z/i', $_POST['password'])) {
-      $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    if (preg_match('/\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}+\z/i', $p)) {
+      $password = password_hash($p, PASSWORD_DEFAULT);
     } else {
       echo 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
       return false;
@@ -39,13 +39,13 @@ class User
     }
   }
 
-  public function login()
+  public function login($email, $password)
   {
     require_once(__DIR__ . '/../data/config.php');
 
     session_start();
     //POSTのvalidate
-    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       echo '入力された値が不正です。';
       return false;
     }
@@ -53,7 +53,7 @@ class User
     try {
       $pdo = new PDO(DSN, DB_USER, DB_PASS);
       $stmt = $pdo->prepare('select * from userData where email = ?');
-      $stmt->execute([$_POST['email']]);
+      $stmt->execute([$email]);
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (\Exception $e) {
       echo $e->getMessage() . PHP_EOL;
@@ -64,10 +64,10 @@ class User
       return false;
     }
     //パスワード確認後sessionにメールアドレスを渡す
-    if (password_verify($_POST['password'], $row['password'])) {
+    if (password_verify($password, $row['password'])) {
       session_regenerate_id(true); //session_idを新しく生成し、置き換える
       $_SESSION['EMAIL'] = $row['email'];
-      echo 'ログインしました';
+      return true;
     } else {
       echo 'メールアドレス又はパスワードが間違っています。';
       return false;

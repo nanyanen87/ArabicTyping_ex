@@ -54,7 +54,7 @@ class Book
 
     return;
   }
-  public function updateSentence()
+  public function deleteRecord()
   {
   }
 }

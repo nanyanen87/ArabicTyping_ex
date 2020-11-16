@@ -14,6 +14,15 @@
 import Header from "../components/Header";
 export default {
   name: "ScorePage",
+  date() {
+    return {
+      gameResultData: {
+        gameMode: this.$route.query.gameMode,
+        gameSection: this.$route.query.gameSection,
+        resultScore: this.$router.query.resultScore,
+      },
+    };
+  },
   props: {
     resultScore: Number,
     gameMode: String,
@@ -27,34 +36,42 @@ export default {
     document.addEventListener("keydown", (e) => {
       if (e.code === "Escape") {
         console.log("retry");
-        const URL = `/typing?gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}&keyboard=${this.$route.query.keyboard}`;
+        const URL =
+          `/typing` +
+          `?gameMode=${this.$route.query.gameMode}` +
+          `&gameSection=${this.$route.query.gameSection}` +
+          `&keyboard=${this.$route.query.keyboard}`;
         this.$router.push(URL);
       }
     });
   },
   methods: {
-    entryRanking() {
-      // this.loginCheck();
-      //ログイン済かどうかでチェック。ログイン済なら↓処理、そうでないならログインページ。
-      //保持するもの、score,gamemode,gamesection,リダイレクト先URL
-      const params = new URLSearchParams();
-      params.append("resultScore", this.$route.query.resultScore);
-      this.axios
-        .post("/controllers/game", params)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    loginCheck() {
-      console.log("check");
-      this.$router.push(`/login/score/${this.$route.query.resultScore}`);
+    async entryRanking() {
+      //resultデータをDBに登録
+
+      try {
+        // loginチェック
+        const res = await this.axios.get("/controllers/session");
+        console.log(res.data.session);
+        if (res.data.session) {
+          console.log("そのまま");
+          this.$router.push(`/ranking?gameResultData=1234`);
+        } else {
+          //ログインしてない場合はgameResultDataとnextPage=rankingを保持したままログインページへ
+          // const URL = `/login/ranking?gameResultData=${this.gameResultData}`;
+          // this.$router.push(URL);
+          this.$router.push({
+            name: "LoginPage",
+            params: { nextPage: "/ranking" },
+            query: { gameResultData: this.gameResultData },
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     shareInTwitter() {
       console.log("tweet");
-      //文章登録お試し
     },
   },
 };

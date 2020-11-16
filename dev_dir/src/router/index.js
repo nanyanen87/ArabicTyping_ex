@@ -31,18 +31,31 @@ const routes = [
     }),
   },
   {
-    path: "/login/:nextPage*",
+    path: "/login/:nextPage",
     name: "LoginPage",
-    props: true,
+    props: (route) => ({
+      nextPage: route.params.nextPage,
+    }),
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginPage.vue"),
   },
   {
-    path: "/signin/:nextPage*",
+    //:nextPageをつけるとno matchになる。なぜだ
+    path: "/signin:nextPage",
     name: "SigninPage",
-    props: true,
+    props: (route) => ({
+      nextPage: route.params.nextPage,
+    }),
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SigninPage.vue"),
+  },
+  {
+    path: "/ranking",
+    name: "RankingPage",
+    props: (route) => ({
+      gameResultData: route.query.gameResultData,
+    }),
+    component: () => import("../views/RankingPage.vue"),
   },
   {
     path: "/register",

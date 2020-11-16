@@ -50,7 +50,7 @@ export default {
   name: "TopPage",
   data() {
     return {
-      isMouseOver: { bookMode: true, wordMode: false },
+      isMouseOver: { bookMode: true, wordMode: true },
       keyboard: "mac",
       gameMode: "bookMode",
       gameSection: "",
@@ -87,7 +87,11 @@ export default {
       //テキストが日本語か英語かでmouseLeave反応しないことがある、これが原因か？
       let gameSection = e.target.textContent;
 
-      let URL = `/typing?gameMode=${gameMode}&gameSection=${gameSection}&keyboard=${keyboard}`;
+      let URL =
+        `/typing` +
+        `?gameMode=${gameMode}` +
+        `&gameSection=${gameSection}` +
+        `&keyboard=${keyboard}`;
       this.$router.push(URL);
     },
     setKeyboard(e) {

@@ -8,4 +8,5 @@ $password = htmlspecialchars($_POST['password']);
 //index.phpでインスタンスを作り、メソッドを実行するようにもできそう。
 include(__DIR__ . "/../models/User.php");
 $user = new User();
-echo $user->login();
+// todo オブジェクトを返す,{statusCode:200or400,message:""}
+echo json_encode($user->login($email, $password));

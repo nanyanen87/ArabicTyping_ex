@@ -2,6 +2,7 @@
   <div>
     <Header />
     <h1>ランキング</h1>
+    <p>あなたのスコアは{{ gameResultData }}</p>
   </div>
 </template>
 
@@ -9,9 +10,11 @@
 import Header from "../components/Header";
 export default {
   name: "RankingPage",
+  props: {
+    gameResultData: String,
+  },
   beforeMount: function () {
-    //ログイン済でなければ、ログインページにリダイレクト。そしてログイン後のパスを/rankingにしする
-    //this.$router.push("/login/ranking")
+    console.log(this.$route.query.gameResultData);
   },
   components: {
     Header,

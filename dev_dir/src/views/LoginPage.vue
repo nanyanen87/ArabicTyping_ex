@@ -43,6 +43,10 @@ export default {
       errors: [],
     };
   },
+  props: {
+    nextPage: String,
+    gameResultData: Object,
+  },
   components: {
     Header,
   },
@@ -59,8 +63,11 @@ export default {
         this.axios
           .post("/controllers/login", params)
           .then((res) => {
-            console.log(res.data);
-            this.user.session = true;
+            //falseが返ってきたら、遷移しない
+            console.log(res);
+            //todo リザルトデータをクエリに追加する。index.jsも変えないと
+            const URL = this.$route.params.nextPage;
+            this.$router.push(URL);
           })
           .catch((error) => {
             console.log("エラーです");
