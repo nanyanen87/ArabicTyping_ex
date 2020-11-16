@@ -73,11 +73,19 @@ export default {
       let nowQuestion = 0;
       this.nowSentence = this.sentenceOrg[nowQuestion];
 
+      let missCounts = 1,
+        correctCounts = 0;
+
       document.addEventListener("keypress", (e) => {
         //error 0が定義されていない
         if (this.sentenceOrg[nowQuestion][nowCharLocation] === e.key) {
           this.inputSentence += e.key;
           nowCharLocation++;
+          correctCounts++;
+          console.log("正しく打った数：" + correctCounts);
+        } else {
+          missCounts++;
+          console.log("間違えて打った数：" + missCounts);
         }
         if (this.sentenceOrg[nowQuestion].length === nowCharLocation) {
           nowQuestion++;
@@ -86,13 +94,15 @@ export default {
           nowCharLocation = 0;
         }
         if (this.sentenceOrg.length === nowQuestion) {
-          this.endGame();
+          this.endGame(missCounts, correctCounts);
         }
       });
     },
-    endGame() {
+    endGame(m, c) {
       this.score.endTime = new Date();
-      this.score.resultScore = this.score.endTime - this.score.startTime;
+      const seconds = (this.score.endTime - this.score.startTime) / 1000;
+      // const K = 1;
+      this.score.resultScore = ((c / seconds) * 60 * (m / c)) ^ 3;
       //リトライとスコア登録のためにプロパティを全部維持しないと
       const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}&keyboard=${this.$route.query.keyboard}`;
       this.$router.push(URL);
