@@ -2,29 +2,43 @@
   <div>
     <Header />
     <h1>arabic typing</h1>
-    <div class="modeSelectBox">
+    <div class="modeSelectWrapper">
       <div class="bookMode modeBox">
-        <p v-show="isMouseOver" v-on:mouseenter="mouseEnter('bookMode')">
+        <p
+          v-show="isMouseOver.bookMode"
+          v-on:mouseenter="mouseEnter('bookMode')"
+        >
           長文モード
         </p>
-        <div v-show="!isMouseOver" v-on:mouseleave="mouseLeave()">
+        <div
+          v-show="!isMouseOver.bookMode"
+          v-on:mouseleave="mouseLeave('bookMode')"
+        >
           <p v-on:click="startGame" class="button">タイトル１</p>
           <p v-on:click="startGame" class="button">タイトル２</p>
           <p v-on:click="startGame" class="button">タイトル３</p>
         </div>
       </div>
-      <div class="wordMode modeBox">
-        <p>単語モード</p>
-        <div v-show="false">
-          <p v-on:click="startGame" class="button">hard</p>
+      <div class="bookMode modeBox">
+        <p
+          v-show="isMouseOver.wordMode"
+          v-on:mouseenter="mouseEnter('wordMode')"
+        >
+          単語モード
+        </p>
+        <div
+          v-show="!isMouseOver.wordMode"
+          v-on:mouseleave="mouseLeave('wordMode')"
+        >
+          <p v-on:click="startGame" class="button">easy</p>
           <p v-on:click="startGame" class="button">normal</p>
-          <p v-on:click="startGame" class="button">eazy</p>
+          <p v-on:click="startGame" class="button">hard</p>
         </div>
       </div>
-      <div class="keyboard">
-        <p @click="setKeyboard" class="button">mac</p>
-        <p @click="setKeyboard" class="button">ibm</p>
-      </div>
+    </div>
+    <div class="keyboard">
+      <p @click="setKeyboard" class="button">mac</p>
+      <p @click="setKeyboard" class="button">ibm</p>
     </div>
     <div>ようこそ {{ userName }}</div>
   </div>
@@ -36,7 +50,7 @@ export default {
   name: "TopPage",
   data() {
     return {
-      isMouseOver: true,
+      isMouseOver: { bookMode: true, wordMode: false },
       keyboard: "mac",
       gameMode: "bookMode",
       gameSection: "",
@@ -60,16 +74,17 @@ export default {
   },
   methods: {
     mouseEnter(mode) {
-      this.isMouseOver = false;
+      this.isMouseOver[mode] = false;
       this.gameMode = mode;
     },
-    mouseLeave() {
-      this.isMouseOver = true;
+    mouseLeave(mode) {
+      this.isMouseOver[mode] = true;
       this.gameMode = "";
     },
     startGame(e) {
       let keyboard = this.keyboard;
       let gameMode = this.gameMode;
+      //テキストが日本語か英語かでmouseLeave反応しないことがある、これが原因か？
       let gameSection = e.target.textContent;
 
       let URL = `/typing?gameMode=${gameMode}&gameSection=${gameSection}&keyboard=${keyboard}`;
@@ -86,9 +101,19 @@ export default {
 </script>
 
 <style>
+.modeSelectWrapper {
+  display: flex;
+  justify-content: center;
+}
 .modeBox {
   display: inline-block;
-  padding: 5px;
+  padding: 10px;
+  margin: 5px;
+}
+.modeBox div p {
+  background-color: #FD9F30;
+  border-radius: 6px;
+  color: white;
 }
 .keyboard p {
   display: inline-block;
