@@ -2,7 +2,7 @@
   <div>
     <Header />
     <h1>ランキング</h1>
-    <p>あなたのスコアは{{ gameResultData }}</p>
+    <p>あなたのスコアは{{ resultScore }}</p>
   </div>
 </template>
 
@@ -11,11 +11,9 @@ import Header from "../components/Header";
 export default {
   name: "RankingPage",
   props: {
-    gameResultData: String,
+    resultScore: Number,
   },
-  beforeMount: function () {
-    console.log(this.$route.query.gameResultData);
-  },
+  beforeMount: function () {},
   components: {
     Header,
   },

@@ -16,7 +16,7 @@
         {{ inputSentence }}
         <!-- コンポーネントにして間にカウントダウンページを挟む？ -->
       </div>
-      <p>keyboard:{{ keyboard }}</p>
+      <p>keyboard:{{ gameOption.keyboard }}</p>
       <button @click="endGame">終了</button>
     </div>
   </div>
@@ -37,23 +37,18 @@ export default {
     };
   },
   props: {
-    gameMode: String,
-    gameSection: String,
-    keyboard: String,
-    sampleObject: Object,
+    gameOption: Object,
   },
   beforeMount: function () {
     this.axios
       .get("/controllers/game", {
         params: {
-          gameMode: this.$route.query.gameMode,
-          gameSection: this.$route.query.gameSection,
+          gameMode: this.gameOption.mode,
+          gameSection: this.gameOption.section,
         },
       })
       .then((res) => {
         console.log(res.data);
-        //配列でデータを取ってくる
-        // this.sentenceOrg = ["hoge", "piyo", "fuga"];
         this.sentenceOrg = res.data;
       })
       .catch((error) => {
@@ -67,7 +62,6 @@ export default {
   },
   methods: {
     startGame() {
-      console.log(this.sampleObject);
       this.waiting = false;
       this.score.startTime = new Date();
 
@@ -102,15 +96,16 @@ export default {
       this.score.endTime = new Date();
       const seconds = (this.score.endTime - this.score.startTime) / 1000;
       // const K = 1;
-      this.score.resultScore = ((c / seconds) * 60 * (m / c)) ^ 3;
-      //todo gameOption{}にしてまとめる
-      const URL =
-        `/score` +
-        `?resultScore=${this.score.resultScore}` +
-        `&gameMode=${this.$route.query.gameMode}` +
-        `&gameSection=${this.$route.query.gameSection}` +
-        `&keyboard=${this.$route.query.keyboard}`;
-      this.$router.push(URL);
+      this.score.resultScore = (c / seconds) * 60 * ((m / c) ^ 3);
+      this.$router.push({
+        name: "ScorePage",
+        query: {
+          resultScore: this.score.resultScore,
+          gameMode: this.gameOption.mode,
+          gameSection: this.gameOption.section,
+          keyboard: this.gameOption.keyboard,
+        },
+      });
     },
   },
 };

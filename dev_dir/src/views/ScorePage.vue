@@ -19,10 +19,8 @@ export default {
     return {};
   },
   props: {
+    gameOption: Object,
     resultScore: Number,
-    gameMode: String,
-    gameSection: String,
-    keyboard: String,
   },
   components: {
     Header,
@@ -31,12 +29,14 @@ export default {
     document.addEventListener("keydown", (e) => {
       if (e.code === "Escape") {
         console.log("retry");
-        const URL =
-          `/typing` +
-          `?gameMode=${this.$route.query.gameMode}` +
-          `&gameSection=${this.$route.query.gameSection}` +
-          `&keyboard=${this.$route.query.keyboard}`;
-        this.$router.push(URL);
+        this.$router.push({
+          name: "TypingPage",
+          query: {
+            gameMode: this.gameOption.mode,
+            gameSection: this.gameOption.section,
+            keyboard: this.gameOption.keyboard,
+          },
+        });
       }
     });
   },
@@ -50,14 +50,18 @@ export default {
           console.log("そのまま");
           //todo resultデータをDBに登録
 
-          //本来はデータベースを反映したランキングページ飛ぶ。今は簡易的に自分のスコアをもう一度表示してるだけ
-          this.$router.push(`/ranking`);
+          this.$router.push(`/ranking?resultScore=${this.resultScore}`);
         } else {
           //todo ログインしたらResultをデータベースに登録する、つまり値保持する必要がある
           this.$router.push({
             name: "LoginPage",
             params: { nextPage: "/ranking" },
-            // query: { gameResultData: gameResultData }
+            query: {
+              resultScore: this.resultScore,
+              gameMode: this.gameOption.mode,
+              gameSection: this.gameOption.section,
+              keyboard: this.gameOption.keyboard,
+            },
           });
         }
       } catch (error) {

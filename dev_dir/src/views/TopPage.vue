@@ -37,8 +37,8 @@
       </div>
     </div>
     <div class="keyboard">
-      <p @click="setKeyboard" class="button">mac</p>
-      <p @click="setKeyboard" class="button">ibm</p>
+      <p @click="setKeyboard" class="button" id="mac">>mac</p>
+      <p @click="setKeyboard" class="button" id="ibm">ibm</p>
     </div>
     <div>ようこそ {{ userName }}</div>
   </div>
@@ -91,14 +91,21 @@ export default {
         query: {
           gameMode: gameMode,
           gameSection: gameSection,
-          keyboard: keyboard
+          keyboard: keyboard,
         },
       });
     },
     setKeyboard(e) {
-      this.keyboard = e.target.textContent;
-      //todo 描画で選択したものがわかるようにする
-      //e.target.textContent = >>文字列
+      const mac = document.getElementById("mac");
+      const ibm = document.getElementById("ibm");
+      this.keyboard = e.target.id;
+      let elem = document.getElementById(this.keyboard);
+      elem.innerText = ">" + this.keyboard;
+      if (this.keyboard === "mac") {
+        ibm.innerText = "ibm";
+      } else {
+        mac.innerText = "mac";
+      }
       console.log(this.keyboard);
     },
   },

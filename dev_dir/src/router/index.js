@@ -15,9 +15,11 @@ const routes = [
     // props: true はpassname:route.params.passnameのシンタックス
     props: (route) => ({
       //ここでオブジェクトにしたらいいんか！なるほど
-      gameMode: route.query.gameMode,
-      gameSection: route.query.gameSection,
-      keyboard: route.query.keyboard,
+      gameOption: {
+        mode: route.query.gameMode,
+        section: route.query.gameSection,
+        keyboard: route.query.keyboard,
+      },
     }),
   },
   {
@@ -25,9 +27,11 @@ const routes = [
     name: "ScorePage",
     component: ScorePage,
     props: (route) => ({
-      gameMode: route.query.gameMode,
-      gameSection: route.query.gameSection,
-      keyboard: route.query.keyboard,
+      gameOption: {
+        mode: route.query.gameMode,
+        section: route.query.gameSection,
+        keyboard: route.query.keyboard,
+      },
       resultScore: Number(route.query.resultScore),
     }),
   },
@@ -36,6 +40,12 @@ const routes = [
     name: "LoginPage",
     props: (route) => ({
       nextPage: route.params.nextPage,
+      gameOption: {
+        mode: route.query.gameMode,
+        section: route.query.gameSection,
+        keyboard: route.query.keyboard,
+      },
+      resultScore: Number(route.query.resultScore),
     }),
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginPage.vue"),
@@ -54,7 +64,7 @@ const routes = [
     path: "/ranking",
     name: "RankingPage",
     props: (route) => ({
-      gameResultData: route.query.gameResultData,
+      resultScore: Number(route.query.resultScore),
     }),
     component: () => import("../views/RankingPage.vue"),
   },

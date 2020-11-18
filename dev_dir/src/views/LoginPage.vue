@@ -45,7 +45,8 @@ export default {
   },
   props: {
     nextPage: String,
-    gameResultData: Object,
+    gameOption: Object,
+    resultScore: Number,
   },
   components: {
     Header,
@@ -67,7 +68,7 @@ export default {
             console.log(res);
             //todo リザルトデータをデータベースに登録して、ランキングページに移動
             //データベース登録処理
-            const URL = this.$route.params.nextPage;
+            const URL = this.nextPage + `?resultScore=${this.resultScore}`;
             this.$router.push(URL);
           })
           .catch((error) => {
