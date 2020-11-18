@@ -65,7 +65,8 @@ export default {
           .then((res) => {
             //falseが返ってきたら、遷移しない
             console.log(res);
-            //todo リザルトデータをクエリに追加する。index.jsも変えないと
+            //todo リザルトデータをデータベースに登録して、ランキングページに移動
+            //データベース登録処理
             const URL = this.$route.params.nextPage;
             this.$router.push(URL);
           })

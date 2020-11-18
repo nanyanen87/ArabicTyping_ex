@@ -14,6 +14,7 @@ const routes = [
     component: TypingPage,
     // props: true はpassname:route.params.passnameのシンタックス
     props: (route) => ({
+      //ここでオブジェクトにしたらいいんか！なるほど
       gameMode: route.query.gameMode,
       gameSection: route.query.gameSection,
       keyboard: route.query.keyboard,

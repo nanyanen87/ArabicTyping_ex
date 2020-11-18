@@ -86,13 +86,14 @@ export default {
       let gameMode = this.gameMode;
       //テキストが日本語か英語かでmouseLeave反応しないことがある、これが原因か？
       let gameSection = e.target.textContent;
-
-      let URL =
-        `/typing` +
-        `?gameMode=${gameMode}` +
-        `&gameSection=${gameSection}` +
-        `&keyboard=${keyboard}`;
-      this.$router.push(URL);
+      this.$router.push({
+        name: "TypingPage",
+        query: {
+          gameMode: gameMode,
+          gameSection: gameSection,
+          keyboard: keyboard
+        },
+      });
     },
     setKeyboard(e) {
       this.keyboard = e.target.textContent;
@@ -115,7 +116,7 @@ export default {
   margin: 5px;
 }
 .modeBox div p {
-  background-color: #FD9F30;
+  background-color: #fd9f30;
   border-radius: 6px;
   color: white;
 }

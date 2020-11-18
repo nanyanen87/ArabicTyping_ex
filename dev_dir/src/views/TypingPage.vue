@@ -40,6 +40,7 @@ export default {
     gameMode: String,
     gameSection: String,
     keyboard: String,
+    sampleObject: Object,
   },
   beforeMount: function () {
     this.axios
@@ -66,6 +67,7 @@ export default {
   },
   methods: {
     startGame() {
+      console.log(this.sampleObject);
       this.waiting = false;
       this.score.startTime = new Date();
 
@@ -101,8 +103,13 @@ export default {
       const seconds = (this.score.endTime - this.score.startTime) / 1000;
       // const K = 1;
       this.score.resultScore = ((c / seconds) * 60 * (m / c)) ^ 3;
-      //リトライとスコア登録のためにプロパティを全部維持しないと
-      const URL = `/score?resultScore=${this.score.resultScore}&gameMode=${this.$route.query.gameMode}&gameSection=${this.$route.query.gameSection}&keyboard=${this.$route.query.keyboard}`;
+      //todo gameOption{}にしてまとめる
+      const URL =
+        `/score` +
+        `?resultScore=${this.score.resultScore}` +
+        `&gameMode=${this.$route.query.gameMode}` +
+        `&gameSection=${this.$route.query.gameSection}` +
+        `&keyboard=${this.$route.query.keyboard}`;
       this.$router.push(URL);
     },
   },
@@ -117,7 +124,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: #E33E2B;
+  background-color: #e33e2b;
   /* opacity: 0.7; */
   height: 400px;
   width: 400px;
