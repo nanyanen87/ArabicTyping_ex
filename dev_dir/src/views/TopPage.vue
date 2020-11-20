@@ -3,70 +3,49 @@
     <Header />
     <h1>arabic typing</h1>
     <div class="modeSelectWrapper">
-      <div>
+      <div class="collapsibleBox" v-on:mouseleave="mouseLeave('bookMode')">
         <ul class="collapsible">
           <li>
-            <div class="collapsible-header">
-              <i class="material-icons">filter_drama</i>First
+            <div
+              class="collapsible-header"
+              id="bookMode"
+              v-on:mouseenter="mouseEnter('bookMode', $event)"
+            >
+              長文モード
             </div>
             <div class="collapsible-body">
-              <span>Lorem ipsum dolor sit amet.</span>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header">
-              <i class="material-icons">place</i>Second
-            </div>
-            <div class="collapsible-body">
-              <span>Lorem ipsum dolor sit amet.</span>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header">
-              <i class="material-icons">whatshot</i>Third
-            </div>
-            <div class="collapsible-body">
-              <span>Lorem ipsum dolor sit amet.</span>
+              <p v-on:click="startGame" class="button">タイトル１</p>
+              <p v-on:click="startGame" class="button">タイトル２</p>
+              <p v-on:click="startGame" class="button">タイトル３</p>
             </div>
           </li>
         </ul>
       </div>
-      <div class="bookMode modeBox">
-        <p
-          v-show="isMouseOver.bookMode"
-          v-on:mouseenter="mouseEnter('bookMode')"
-        >
-          長文モード
-        </p>
-        <div
-          v-show="!isMouseOver.bookMode"
-          v-on:mouseleave="mouseLeave('bookMode')"
-        >
-          <p v-on:click="startGame" class="button">タイトル１</p>
-          <p v-on:click="startGame" class="button">タイトル２</p>
-          <p v-on:click="startGame" class="button">タイトル３</p>
-        </div>
-      </div>
-      <div class="bookMode modeBox">
-        <p
-          v-show="isMouseOver.wordMode"
-          v-on:mouseenter="mouseEnter('wordMode')"
-        >
-          単語モード
-        </p>
-        <div
-          v-show="!isMouseOver.wordMode"
-          v-on:mouseleave="mouseLeave('wordMode')"
-        >
-          <p v-on:click="startGame" class="button">easy</p>
-          <p v-on:click="startGame" class="button">normal</p>
-          <p v-on:click="startGame" class="button">hard</p>
-        </div>
+      <div class="collapsibleBox" v-on:mouseleave="mouseLeave('wordMode')">
+        <ul class="collapsible">
+          <li>
+            <div
+              class="collapsible-header"
+              id="wordMode"
+              v-on:mouseenter="mouseEnter('wordMode', $event)"
+            >
+              単語モード
+            </div>
+            <div class="collapsible-body">
+              <p>easy</p>
+              <p>normal</p>
+              <p>hard</p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="keyboard">
       <p @click="setKeyboard" class="button" id="mac">>mac</p>
       <p @click="setKeyboard" class="button" id="ibm">ibm</p>
+    </div>
+    <div>
+      <a @click="switchSound" class="btn-flat sound">Sound:OFF</a>
     </div>
     <div>ようこそ {{ userName }}</div>
   </div>
@@ -79,10 +58,10 @@ export default {
   name: "TopPage",
   data() {
     return {
-      isMouseOver: { bookMode: true, wordMode: true },
       keyboard: "mac",
       gameMode: "bookMode",
       gameSection: "",
+      gameSound: false,
       userName: "",
     };
   },
@@ -112,25 +91,24 @@ export default {
     Header,
   },
   methods: {
-    mouseEnter(mode) {
-      this.isMouseOver[mode] = false;
+    mouseEnter(mode, event) {
+      event.target.click();
       this.gameMode = mode;
+      console.log(this.gameMode);
     },
-    mouseLeave(mode) {
-      this.isMouseOver[mode] = true;
-      this.gameMode = "";
+    mouseLeave(modeName) {
+      document.getElementById(`${modeName}`).click();
+      console.log("leave");
     },
     startGame(e) {
-      let keyboard = this.keyboard;
-      let gameMode = this.gameMode;
-      //テキストが日本語か英語かでmouseLeave反応しないことがある、これが原因か？
-      let gameSection = e.target.textContent;
+      this.gameSection = e.target.textContent;
       this.$router.push({
         name: "TypingPage",
         query: {
-          gameMode: gameMode,
-          gameSection: gameSection,
-          keyboard: keyboard,
+          gameMode: this.gameMode,
+          gameSection: this.gameSection,
+          keyboard: this.keyboard,
+          gameSound: this.gameSound,
         },
       });
     },
@@ -147,6 +125,14 @@ export default {
       }
       console.log(this.keyboard);
     },
+    switchSound(e) {
+      this.gameSound = !this.gameSound;
+      if (this.gameSound === false) {
+        e.target.textContent = "Sound:OFF";
+      } else if (this.gameSound === true) {
+        e.target.textContent = "Sound:ON";
+      }
+    },
   },
 };
 </script>
@@ -155,6 +141,9 @@ export default {
 .modeSelectWrapper {
   display: flex;
   justify-content: center;
+}
+.collapsibleBox {
+  width: 20%;
 }
 .modeBox {
   display: inline-block;

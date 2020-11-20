@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      headerです<router-link to="/">top</router-link> |
+      <router-link to="/">top</router-link> |
       <router-link
         :to="{ name: 'LoginPage', params: { nextPage: '/' } }"
         v-show="!sessionStart"

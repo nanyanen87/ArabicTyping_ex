@@ -35,6 +35,7 @@ export default {
             gameMode: this.gameOption.mode,
             gameSection: this.gameOption.section,
             keyboard: this.gameOption.keyboard,
+            gameSound: this.gameOption.sound,
           },
         });
       }

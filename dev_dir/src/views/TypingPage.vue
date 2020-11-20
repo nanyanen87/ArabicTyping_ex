@@ -1,24 +1,21 @@
 <template>
   <div>
     <Header />
-    <h1>typing screen</h1>
+
     <div class="topWrapper">
-      <!-- どっちがいいんやろ -->
-      <!-- <h2>{{$route.params.bookTitle}}</h2> -->
-      <!-- <h2>{{bookTitle}}</h2> -->
-      <div class="sentenceBox">
-        <div>{{ nowSentence }}</div>
+      <WaitGame class="upperLayer" @start-game="startGame" v-if="waiting" />
+      <div class="middleWrapper" v-if="!waiting">
+        <h3>{{ gameOption.section }}</h3>
+        <div class="sentenceBox">
+          <div>{{ nowSentence }}</div>
+        </div>
+        <div class="inputBox">
+          {{ inputSentence }}
+        </div>
+        <div>
+          <img src="../assets/mackey.png" />
+        </div>
       </div>
-      <div>
-        <WaitGame class="upperLayer" @start-game="startGame" v-if="waiting" />
-      </div>
-      <div class="inputBox">
-        {{ inputSentence }}
-        <!-- コンポーネントにして間にカウントダウンページを挟む？ -->
-      </div>
-      <img src="../assets/mackey.png" />
-      <p>keyboard:{{ gameOption.keyboard }}</p>
-      <button @click="endGame">終了</button>
     </div>
   </div>
 </template>
@@ -26,6 +23,7 @@
 <script>
 import Header from "../components/Header";
 import WaitGame from "../components/WaitGame";
+import soundPath from "../assets/sound/blip02.mp3";
 export default {
   name: "TypingPage",
   data() {
@@ -62,10 +60,16 @@ export default {
     WaitGame,
   },
   methods: {
-    startGame() {
+    //関数型コンポーネントにした方が良さげ？
+    async startGame() {
       this.waiting = false;
-      this.score.startTime = new Date();
-
+      this.score.startTime = await new Date();
+      const missSound = await new Audio(soundPath);
+      console.log(this.gameOption.sound);
+      if (!this.gameOption.sound) {
+        console.log("音量ゼロ");
+        missSound.volume = 0;
+      }
       let nowCharLocation = 0;
       let nowQuestion = 0;
       this.nowSentence = this.sentenceOrg[nowQuestion];
@@ -81,6 +85,7 @@ export default {
           correctCounts++;
         } else {
           missCounts++;
+          missSound.play();
         }
         if (this.sentenceOrg[nowQuestion].length === nowCharLocation) {
           nowQuestion++;
@@ -96,8 +101,8 @@ export default {
     endGame(m, c) {
       this.score.endTime = new Date();
       const seconds = (this.score.endTime - this.score.startTime) / 1000;
-      // const K = 1;
-      this.score.resultScore = (c / seconds) * 60 * ((m / c) ^ 3);
+
+      this.score.resultScore = Math.floor((c / seconds) * 60 * ((m / c) ^ 3));
       this.$router.push({
         name: "ScorePage",
         query: {
@@ -127,6 +132,5 @@ export default {
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  z-index: 1;
 }
 </style>
