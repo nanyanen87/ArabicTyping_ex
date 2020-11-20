@@ -16,6 +16,7 @@
         {{ inputSentence }}
         <!-- コンポーネントにして間にカウントダウンページを挟む？ -->
       </div>
+      <img src="../assets/mackey.png" />
       <p>keyboard:{{ gameOption.keyboard }}</p>
       <button @click="endGame">終了</button>
     </div>

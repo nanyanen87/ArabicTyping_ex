@@ -3,6 +3,34 @@
     <Header />
     <h1>arabic typing</h1>
     <div class="modeSelectWrapper">
+      <div>
+        <ul class="collapsible">
+          <li>
+            <div class="collapsible-header">
+              <i class="material-icons">filter_drama</i>First
+            </div>
+            <div class="collapsible-body">
+              <span>Lorem ipsum dolor sit amet.</span>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="material-icons">place</i>Second
+            </div>
+            <div class="collapsible-body">
+              <span>Lorem ipsum dolor sit amet.</span>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="material-icons">whatshot</i>Third
+            </div>
+            <div class="collapsible-body">
+              <span>Lorem ipsum dolor sit amet.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
       <div class="bookMode modeBox">
         <p
           v-show="isMouseOver.bookMode"
@@ -46,6 +74,7 @@
 
 <script>
 import Header from "../components/Header";
+import M from "materialize-css";
 export default {
   name: "TopPage",
   data() {
@@ -68,6 +97,16 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+  },
+  mounted: function () {
+    M.AutoInit();
+    document.addEventListener("DOMContentLoaded", function () {
+      var elems = document.querySelectorAll(".collapsible");
+      var instance = M.Collapsible.init(elems, {
+        accordion: true,
+      });
+      instance;
+    });
   },
   components: {
     Header,
