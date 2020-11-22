@@ -3,16 +3,14 @@
     <Header />
     <h1>arabic typing</h1>
     <div class="modeSelectWrapper">
-      <div class="collapsibleBox" v-on:mouseleave="mouseLeave('bookMode')">
+      <div
+        class="collapsibleBox"
+        v-on:mouseleave="mouseLeave('bookMode')"
+        v-on:mouseenter="mouseEnter('bookMode')"
+      >
         <ul class="collapsible">
           <li>
-            <div
-              class="collapsible-header"
-              id="bookMode"
-              v-on:mouseenter="mouseEnter('bookMode', $event)"
-            >
-              長文モード
-            </div>
+            <div class="collapsible-header" id="bookMode">長文モード</div>
             <div class="collapsible-body">
               <p v-on:click="startGame" class="button">タイトル１</p>
               <p v-on:click="startGame" class="button">タイトル２</p>
@@ -21,20 +19,19 @@
           </li>
         </ul>
       </div>
-      <div class="collapsibleBox" v-on:mouseleave="mouseLeave('wordMode')">
+      <div
+        class="collapsibleBox"
+        v-on:mouseleave="mouseLeave('wordMode')"
+        v-on:mouseenter="mouseEnter('wordMode')"
+      >
         <ul class="collapsible">
           <li>
-            <div
-              class="collapsible-header"
-              id="wordMode"
-              v-on:mouseenter="mouseEnter('wordMode', $event)"
-            >
-              単語モード
-            </div>
+            <div class="collapsible-header" id="wordMode">単語モード</div>
             <div class="collapsible-body">
-              <p>easy</p>
+              未実装です
+              <!-- <p>easy</p>
               <p>normal</p>
-              <p>hard</p>
+              <p>hard</p> -->
             </div>
           </li>
         </ul>
@@ -91,12 +88,13 @@ export default {
     Header,
   },
   methods: {
-    mouseEnter(mode, event) {
-      event.target.click();
-      this.gameMode = mode;
-      console.log(this.gameMode);
+    mouseEnter(modeName) {
+      document.getElementById(`${modeName}`).click();
+      this.gameMode = modeName;
+      console.log("over");
     },
     mouseLeave(modeName) {
+      //todo clickじゃなくてcollapsibleを閉じる必要ある
       document.getElementById(`${modeName}`).click();
       console.log("leave");
     },
@@ -144,6 +142,8 @@ export default {
 }
 .collapsibleBox {
   width: 20%;
+  min-width: 150px;
+  text-align: center;
 }
 .modeBox {
   display: inline-block;

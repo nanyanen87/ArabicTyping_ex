@@ -5,15 +5,18 @@
     <div class="topWrapper">
       <WaitGame class="upperLayer" @start-game="startGame" v-if="waiting" />
       <div class="middleWrapper" v-if="!waiting">
-        <h3>{{ gameOption.section }}</h3>
         <div class="sentenceBox">
+          <h1>{{ gameOption.section }}</h1>
           <div>{{ nowSentence }}</div>
         </div>
         <div class="inputBox">
           {{ inputSentence }}
         </div>
-        <div>
-          <img src="../assets/mackey.png" />
+        <div class="imgBox">
+          <picture>
+            <source media="(min-width: 960px)" v-bind:srcset="img.bigger" />
+            <img v-bind:src="img.smaller" />
+          </picture>
         </div>
       </div>
     </div>
@@ -33,6 +36,14 @@ export default {
       inputSentence: "",
       score: { startTime: 0, endTime: 0, resultScore: 0 },
       waiting: true,
+      img: {
+        bigger: require("../assets/img/" +
+          this.gameOption.keyboard +
+          "key900-300.png"),
+        smaller: require("../assets/img/" +
+          this.gameOption.keyboard +
+          "key600-200.png"),
+      },
     };
   },
   props: {
@@ -78,7 +89,7 @@ export default {
         correctCounts = 0;
 
       document.addEventListener("keypress", (e) => {
-        //error 0が定義されていない
+        //error cannot read property '0' of undefined
         if (this.sentenceOrg[nowQuestion][nowCharLocation] === e.key) {
           this.inputSentence += e.key;
           nowCharLocation++;
@@ -118,8 +129,21 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 15px;
+}
 .topWrapper {
   position: relative;
+}
+.middleWrapper {
+}
+.sentenceBox {
+}
+.inputBox {
+  /* 大きさを固定しないと入力した文字で描画がずれる */
+  height: 30px;
+}
+.imgBox {
 }
 .upperLayer {
   position: absolute;

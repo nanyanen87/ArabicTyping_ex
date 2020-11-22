@@ -4,19 +4,27 @@
     <h1>score page</h1>
     <div>{{ resultScore }}</div>
     <div>
-      <p>{{}}</p>
-      <button @click="entryRanking">ランキングに登録する</button>
-      <button @click="shareInTwitter">Twitterで共有する</button>
+      <div>
+        <a class="waves-effect waves-teal btn-flat" @click="entryRanking"
+          >ランキングに登録する</a
+        >
+        <a class="waves-effect waves-teal btn-flat" v-bind:href="shareUrl"
+          >Twitterで共有する</a
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Header from "../components/Header";
+import M from "materialize-css";
 export default {
   name: "ScorePage",
   date() {
-    return {};
+    return {
+      shareUrl: "https://twitter.com/intent/tweet",
+    };
   },
   props: {
     gameOption: Object,
@@ -26,20 +34,9 @@ export default {
     Header,
   },
   mounted: function () {
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Escape") {
-        console.log("retry");
-        this.$router.push({
-          name: "TypingPage",
-          query: {
-            gameMode: this.gameOption.mode,
-            gameSection: this.gameOption.section,
-            keyboard: this.gameOption.keyboard,
-            gameSound: this.gameOption.sound,
-          },
-        });
-      }
-    });
+    M.AutoInit();
+    this.gameRetry();
+    this.createUrl();
   },
   methods: {
     async entryRanking() {
@@ -69,8 +66,28 @@ export default {
         console.log(error);
       }
     },
-    shareInTwitter() {
-      console.log("tweet");
+    gameRetry() {
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Escape") {
+          console.log("retry");
+          this.$router.push({
+            name: "TypingPage",
+            query: {
+              gameMode: this.gameOption.mode,
+              gameSection: this.gameOption.section,
+              keyboard: this.gameOption.keyboard,
+              gameSound: this.gameOption.sound,
+            },
+          });
+        }
+      });
+    },
+    createUrl() {
+      this.shareUrl =
+        `https://twitter.com/intent/tweet` +
+        `?text=私の記録は${this.resultScore}でした` +
+        `&hashtags=arabictyping` +
+        `&url=シェアしたいURL`;
     },
   },
 };
