@@ -4,49 +4,55 @@
     <div class="main">
       <h1>arabic typing</h1>
       <div class="modeSelectWrapper">
-        <div
-          class="collapsibleBox"
-          v-on:mouseleave="mouseLeave('bookMode')"
-          v-on:mouseenter="mouseEnter('bookMode')"
-        >
-          <ul class="collapsible">
-            <li>
-              <div class="collapsible-header" id="bookMode">長文モード</div>
-              <div class="collapsible-body">
-                <p v-on:click="startGame" class="button">أَلشَّمْسُ</p>
-                <p v-on:click="startGame" class="button">example</p>
-                <!-- <p v-on:click="startGame" class="button"></p> -->
-              </div>
-            </li>
-          </ul>
+        <div class="modeSelectBox">
+          <div
+            class="collapsibleBox"
+            v-on:mouseleave="mouseLeave('bookMode')"
+            v-on:mouseenter="mouseEnter('bookMode')"
+          >
+            <ul class="collapsible">
+              <li>
+                <div class="collapsible-header" id="bookMode">長文モード</div>
+                <div class="collapsible-body">
+                  <p v-on:click="startGame" class="button">أَلشَّمْسُ</p>
+                  <p class="button">title1</p>
+                  <p class="button">title2</p>
+                  <p v-on:click="startGame" class="button">example</p>
+                  <!-- <p v-on:click="startGame" class="button"></p> -->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="collapsibleBox"
+            v-on:mouseleave="mouseLeave('wordMode')"
+            v-on:mouseenter="mouseEnter('wordMode')"
+          >
+            <ul class="collapsible">
+              <li>
+                <div class="collapsible-header" id="wordMode">単語モード</div>
+                <div class="collapsible-body">
+                  <p class="button">未実装です</p>
+                  <p>easy</p>
+                  <p>normal</p>
+                  <p>hard</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div
-          class="collapsibleBox"
-          v-on:mouseleave="mouseLeave('wordMode')"
-          v-on:mouseenter="mouseEnter('wordMode')"
-        >
-          <ul class="collapsible">
-            <li>
-              <div class="collapsible-header" id="wordMode">単語モード</div>
-              <div class="collapsible-body">
-                <p class="button">未実装です</p>
-                <!-- <p>easy</p>
-              <p>normal</p>
-              <p>hard</p> -->
-              </div>
-            </li>
-          </ul>
+      </div>
+      <div class="gameOptionWrapper">
+        <div class="keyboard">
+          <p @click="setKeyboard" class="button" id="mac">>mac</p>
+          <p @click="setKeyboard" class="button" id="ibm">ibm</p>
         </div>
-      </div>
-      <div class="keyboard">
-        <p @click="setKeyboard" class="button" id="mac">>mac</p>
-        <p @click="setKeyboard" class="button" id="ibm">ibm</p>
-      </div>
-      <div class="sound">
-        <p @click="switchSound" class="isSound">Sound:OFF</p>
-      </div>
-      <div>
-        <p>ようこそ {{ userName }}</p>
+        <div class="sound">
+          <p @click="switchSound" class="isSound">Sound:OFF</p>
+        </div>
+        <div>
+          <p>ようこそ {{ userName }}</p>
+        </div>
       </div>
     </div>
     <Footer class="footer" />
@@ -165,10 +171,22 @@ export default {
   display: flex;
   justify-content: center;
 }
+.gameOptionWrapper {
+  padding-top: 72px;
+}
+.modeSelectBox {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+}
 .collapsibleBox {
   width: 20%;
   min-width: 200px;
   text-align: center;
+}
+.collapsible-body {
+  background-color: white;
+  z-index: 1;
 }
 .keyboard {
   display: flex;
