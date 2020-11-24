@@ -1,55 +1,61 @@
 <template>
-  <div>
-    <Header />
-    <h1>arabic typing</h1>
-    <div class="modeSelectWrapper">
-      <div
-        class="collapsibleBox"
-        v-on:mouseleave="mouseLeave('bookMode')"
-        v-on:mouseenter="mouseEnter('bookMode')"
-      >
-        <ul class="collapsible">
-          <li>
-            <div class="collapsible-header" id="bookMode">長文モード</div>
-            <div class="collapsible-body">
-              <p v-on:click="startGame" class="button">タイトル１</p>
-              <p v-on:click="startGame" class="button">タイトル２</p>
-              <p v-on:click="startGame" class="button">タイトル３</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div
-        class="collapsibleBox"
-        v-on:mouseleave="mouseLeave('wordMode')"
-        v-on:mouseenter="mouseEnter('wordMode')"
-      >
-        <ul class="collapsible">
-          <li>
-            <div class="collapsible-header" id="wordMode">単語モード</div>
-            <div class="collapsible-body">
-              未実装です
-              <!-- <p>easy</p>
+  <div class="topWrapper">
+    <Header class="header" />
+    <div class="main">
+      <h1>arabic typing</h1>
+      <div class="modeSelectWrapper">
+        <div
+          class="collapsibleBox"
+          v-on:mouseleave="mouseLeave('bookMode')"
+          v-on:mouseenter="mouseEnter('bookMode')"
+        >
+          <ul class="collapsible">
+            <li>
+              <div class="collapsible-header" id="bookMode">長文モード</div>
+              <div class="collapsible-body">
+                <p v-on:click="startGame" class="button">أَلشَّمْسُ</p>
+                <p v-on:click="startGame" class="button">example</p>
+                <!-- <p v-on:click="startGame" class="button"></p> -->
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="collapsibleBox"
+          v-on:mouseleave="mouseLeave('wordMode')"
+          v-on:mouseenter="mouseEnter('wordMode')"
+        >
+          <ul class="collapsible">
+            <li>
+              <div class="collapsible-header" id="wordMode">単語モード</div>
+              <div class="collapsible-body">
+                <p class="button">未実装です</p>
+                <!-- <p>easy</p>
               <p>normal</p>
               <p>hard</p> -->
-            </div>
-          </li>
-        </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="keyboard">
+        <p @click="setKeyboard" class="button" id="mac">>mac</p>
+        <p @click="setKeyboard" class="button" id="ibm">ibm</p>
+      </div>
+      <div class="sound">
+        <p @click="switchSound" class="isSound">Sound:OFF</p>
+      </div>
+      <div>
+        <p>ようこそ {{ userName }}</p>
       </div>
     </div>
-    <div class="keyboard">
-      <p @click="setKeyboard" class="button" id="mac">>mac</p>
-      <p @click="setKeyboard" class="button" id="ibm">ibm</p>
-    </div>
-    <div>
-      <a @click="switchSound" class="btn-flat sound">Sound:OFF</a>
-    </div>
-    <div>ようこそ {{ userName }}</div>
+    <Footer class="footer" />
   </div>
 </template>
 
 <script>
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import M from "materialize-css";
 export default {
   name: "TopPage",
@@ -86,6 +92,7 @@ export default {
   },
   components: {
     Header,
+    Footer,
   },
   methods: {
     mouseEnter(modeName) {
@@ -135,31 +142,56 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.topWrapper {
+  margin: 0 auto;
+  height: 100%;
+  display: grid;
+  grid-template:
+    "header" 50px
+    "main" 1fr
+    "footer" 50px;
+}
+.header {
+  grid-area: header;
+}
+.main {
+  grid-area: main;
+}
+.footer {
+  grid-area: footer;
+}
 .modeSelectWrapper {
   display: flex;
   justify-content: center;
 }
 .collapsibleBox {
   width: 20%;
-  min-width: 150px;
+  min-width: 200px;
   text-align: center;
 }
-.modeBox {
-  display: inline-block;
-  padding: 10px;
-  margin: 5px;
-}
-.modeBox div p {
-  background-color: #fd9f30;
-  border-radius: 6px;
-  color: white;
+.keyboard {
+  display: flex;
+  justify-content: center;
 }
 .keyboard p {
-  display: inline-block;
   padding: 0 5px;
+  margin: 10px;
 }
 .button {
   cursor: pointer;
+  border-bottom: thin solid #fd9f30;
+  font-size: 25px;
+  font-weight: bolder;
+}
+.sound {
+  display: flex;
+  justify-content: center;
+}
+.isSound {
+  cursor: pointer;
+  border: thin solid #fd9f30;
+  border-radius: 10px;
+  width: 120px;
 }
 </style>

@@ -14,21 +14,20 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #FD9F30;
+  color: #fd9f30;
+  height: 100%;
 }
 
 #nav {
-  padding: 30px;
+  height: 100%;
 }
 
 #nav a {
   font-weight: bold;
-  /* color: #2c3e50; */
-  color: #FD9F30;
+  /* color: #fa6a3b; */
 }
 
-#nav a.router-link-exact-active {
-  /* color: #42b983; */
-  color: #FA6A3B;
-}
+/* #nav a.router-link-exact-active {
+  color: #fa6a3b;
+} */
 </style>

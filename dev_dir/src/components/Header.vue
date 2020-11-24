@@ -1,19 +1,23 @@
 <template>
   <div>
     <div>
-      <router-link to="/">top</router-link> |
+      <router-link class="link" to="/">top</router-link> |
       <router-link
+        class="link"
         :to="{ name: 'LoginPage', params: { nextPage: '/' } }"
         v-show="!sessionStart"
         >login</router-link
       >
       |
       <router-link
+        class="link"
         :to="{ name: 'SigninPage', params: { nextPage: '/' } }"
         v-show="!sessionStart"
         >signin</router-link
       >
-      <router-link to="/logout" v-show="sessionStart">logout</router-link>
+      <router-link class="link" to="/logout" v-show="sessionStart"
+        >logout</router-link
+      >
     </div>
   </div>
 </template>
@@ -42,3 +46,13 @@ export default {
   },
 };
 </script>
+<style scoped>
+div {
+  background-color: #fd9f30;
+  color: aliceblue;
+}
+.link {
+  line-height: 50px;
+  color: aliceblue;
+}
+</style>

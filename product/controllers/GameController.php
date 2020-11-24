@@ -1,15 +1,4 @@
 <?php
-// わざわざ一つのファイルにまとめず、gameStartControllerとgameEndControllerに分けるべき？
-// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-//   $gameSection = htmlspecialchars($_GET["gameSection"], ENT_QUOTES);
-//   echo "「" . $gameSection . "」が届いたぜよ。";
-//   return;
-// } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//   $resultScore = htmlspecialchars($_POST["resultScore"], ENT_QUOTES);
-//   echo "[" . $resultScore . "]が届いたぜよ。";
-//   return;
-// }
-
 if ($_GET["gameMode"] == "bookMode") {
   $title = $_GET["gameSection"];
   //urlを直接指定しないとエラー出るかも

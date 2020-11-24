@@ -1,16 +1,20 @@
 <template>
   <div>
-    <Header />
-
     <div class="topWrapper">
-      <WaitGame class="upperLayer" @start-game="startGame" v-if="waiting" />
+      <div class="waitScreen" v-if="waiting">
+        <p>スペースキーでスタート</p>
+        <p>escでリスタート</p>
+        <router-link to="/" class="link">タイトルへ</router-link>
+      </div>
       <div class="middleWrapper" v-if="!waiting">
         <div class="sentenceBox">
           <h1>{{ gameOption.section }}</h1>
-          <div>{{ nowSentence }}</div>
+          <p class="arabicText">{{ nowSentence }}</p>
         </div>
         <div class="inputBox">
-          {{ inputSentence }}
+          <p>
+            {{ inputSentence }}
+          </p>
         </div>
         <div class="imgBox">
           <picture>
@@ -24,8 +28,6 @@
 </template>
 
 <script>
-import Header from "../components/Header";
-import WaitGame from "../components/WaitGame";
 import soundPath from "../assets/sound/blip02.mp3";
 export default {
   name: "TypingPage",
@@ -50,6 +52,7 @@ export default {
     gameOption: Object,
   },
   beforeMount: function () {
+    this.getText();
     this.axios
       .get("/controllers/game", {
         params: {
@@ -66,12 +69,38 @@ export default {
         console.log(error);
       });
   },
-  components: {
-    Header,
-    WaitGame,
+  mounted: function () {
+    this.waitGame();
+    this.retryGame();
   },
+  components: {},
   methods: {
     //関数型コンポーネントにした方が良さげ？
+    waitGame() {
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Space") {
+          console.log("start");
+          this.startGame();
+        }
+      });
+    },
+    getText() {
+      this.axios
+        .get("/controllers/game", {
+          params: {
+            gameMode: this.gameOption.mode,
+            gameSection: this.gameOption.section,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.sentenceOrg = res.data;
+        })
+        .catch((error) => {
+          console.log("エラーです");
+          console.log(error);
+        });
+    },
     async startGame() {
       this.waiting = false;
       this.score.startTime = await new Date();
@@ -89,6 +118,10 @@ export default {
         correctCounts = 0;
 
       document.addEventListener("keypress", (e) => {
+        if (this.sentenceOrg[nowQuestion][nowCharLocation] === " ") {
+          this.inputSentence += " ";
+          nowCharLocation++;
+        }
         //error cannot read property '0' of undefined
         if (this.sentenceOrg[nowQuestion][nowCharLocation] === e.key) {
           this.inputSentence += e.key;
@@ -124,37 +157,52 @@ export default {
         },
       });
     },
+    retryGame() {
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Escape") {
+          console.log(location.host);
+          location.reload();
+          // this.$router.push({
+          //   name: "TypingPage",
+          //   query: {
+          //     gameMode: this.gameOption.mode,
+          //     gameSection: this.gameOption.section,
+          //     keyboard: this.gameOption.keyboard,
+          //     gameSound: this.gameOption.sound,
+          //   },
+          // });
+        }
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
 h1 {
-  font-size: 15px;
+  font-size: 35px;
+}
+.arabicText {
+  font-size: 30px;
+  border-bottom: thin solid #fd9f30;
 }
 .topWrapper {
   position: relative;
 }
-.middleWrapper {
+.waitScreen {
+  padding-top: 20px;
 }
-.sentenceBox {
+.waitScreen p:first-child {
+  font-weight: bolder;
+  font-size: 20px;
 }
-.inputBox {
+
+.inputBox p {
   /* 大きさを固定しないと入力した文字で描画がずれる */
+  font-size: 30px;
   height: 30px;
 }
-.imgBox {
-}
-.upperLayer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: #e33e2b;
-  /* opacity: 0.7; */
-  height: 400px;
-  width: 400px;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+.link {
+  color: #fd9f30;
 }
 </style>

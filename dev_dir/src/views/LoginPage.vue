@@ -18,15 +18,14 @@
           <label for="password">password:</label>
           <input type="password" id="password" v-model="password"/>
         </p>
-        <p>
-          <input type="submit" value="Submit">
+        <p class="button" @click="checkForm">
+        送信
         </p>
       </form>
       <div>
-        {{email}}
-      </div>
-      <div>
-        <button @click="guestLogin">ゲストログイン</button>
+        <p class="button" @click="guestLogin"
+          >ゲストログイン</p
+        > 
       </div>
     </div>
   </div>
@@ -65,11 +64,15 @@ export default {
           .post("/controllers/login", params)
           .then((res) => {
             //falseが返ってきたら、遷移しない
-            console.log(res);
-            //todo リザルトデータをデータベースに登録して、ランキングページに移動
-            //データベース登録処理
-            const URL = this.nextPage + `?resultScore=${this.resultScore}`;
-            this.$router.push(URL);
+            if (res.data.code === 200) {
+              //todo リザルトデータをデータベースに登録して、ランキングページに移動
+              //データベース登録処理
+              const URL = this.nextPage + `?resultScore=${this.resultScore}`;
+              this.$router.push(URL);
+            } else {
+              alert(res.data.message);
+              console.log(res.data.message);
+            }
           })
           .catch((error) => {
             console.log("エラーです");
@@ -85,3 +88,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+form {
+  display: inline-block;
+  width: 50%;
+}
+.button {
+  display: inline-block;
+  color: #fd9f30;
+  cursor: pointer;
+  border: thin solid #fd9f30;
+  border-radius: 10px;
+  width: 150px;
+}
+</style>

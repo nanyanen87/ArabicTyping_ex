@@ -18,12 +18,12 @@
           <label for="password">password:</label>
           <input type="password" id="password" v-model="password"/>
         </p>
-        <p>
-          <input type="submit" value="Submit">
+          <p class="button" @click="checkForm">
+        送信
         </p>
       </form>
       <div>
-        {{password}}/{{email}}
+        {{password}}
       </div>
     </div>
   </div>
@@ -71,3 +71,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+form {
+  display: inline-block;
+  width: 50%;
+}
+.button {
+  display: inline-block;
+  color: #fd9f30;
+  cursor: pointer;
+  border: thin solid #fd9f30;
+  border-radius: 10px;
+  width: 150px;
+}
+</style>

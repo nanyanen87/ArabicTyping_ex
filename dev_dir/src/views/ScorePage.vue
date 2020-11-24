@@ -1,14 +1,18 @@
 <template>
   <div>
     <Header />
-    <h1>score page</h1>
-    <div>{{ resultScore }}</div>
+    <div>
+      <p>
+        あなたのスコアは<span>{{ resultScore }}</span
+        >でした
+      </p>
+    </div>
     <div>
       <div>
         <a class="waves-effect waves-teal btn-flat" @click="entryRanking"
           >ランキングに登録する</a
         >
-        <a class="waves-effect waves-teal btn-flat" v-bind:href="shareUrl"
+        <a class="waves-effect waves-teal btn-flat" @click="share"
           >Twitterで共有する</a
         >
       </div>
@@ -18,13 +22,11 @@
 
 <script>
 import Header from "../components/Header";
-import M from "materialize-css";
+// import M from "materialize-css";
 export default {
   name: "ScorePage",
   date() {
-    return {
-      shareUrl: "https://twitter.com/intent/tweet",
-    };
+    return {};
   },
   props: {
     gameOption: Object,
@@ -34,9 +36,8 @@ export default {
     Header,
   },
   mounted: function () {
-    M.AutoInit();
-    this.gameRetry();
-    this.createUrl();
+    // M.AutoInit();
+    this.retryGame();
   },
   methods: {
     async entryRanking() {
@@ -66,7 +67,7 @@ export default {
         console.log(error);
       }
     },
-    gameRetry() {
+    retryGame() {
       document.addEventListener("keydown", (e) => {
         if (e.code === "Escape") {
           console.log("retry");
@@ -82,13 +83,32 @@ export default {
         }
       });
     },
+    share() {
+      const shareURL =
+        "https://twitter.com/intent/tweet?text=あなたのスコアは" +
+        this.resultScore +
+        "でした" +
+        "&hashtags=arabictyping";
+      location.href = shareURL;
+    },
     createUrl() {
-      this.shareUrl =
-        `https://twitter.com/intent/tweet` +
-        `?text=私の記録は${this.resultScore}でした` +
-        `&hashtags=arabictyping` +
-        `&url=シェアしたいURL`;
+      console.log(this.shareUrl);
+      // this.shareUrl =
+      //   `https://twitter.com/intent/tweet` +
+      //   `?text=私の記録は${this.resultScore}でした` +
+      //   `&hashtags=arabictyping` +
+      //   `&url=シェアしたいURL`;
     },
   },
 };
 </script>
+<style  scoped>
+span {
+  font-weight: bold;
+  font-size: large;
+}
+a {
+  border: thin solid #fd9f30;
+  margin: 0 20px;
+}
+</style>

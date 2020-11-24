@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div>
-      <form @submit.prevent="registerText" method="post">
+      <form>
         <p>
           <label for="">題名</label>
           <input type="text" v-model="title" />
@@ -19,12 +19,19 @@
           <label for="">文章</label>
           <input type="text" v-model="sentenceText" />
         </p>
-        <input type="submit" value="Submit" />
+        <a class="waves-effect waves-teal btn-flat" @click="registerText"
+          >登録</a
+        >
       </form>
+    </div>
+    <div class="checkText">
+      確認
+      <p>{{ title }}</p>
+      <p>{{ sentenceText }}</p>
     </div>
     <div>
       <p>データベース内容表示</p>
-      <button>内容チェック</button>
+      <button @click="getText">内容チェック</button>
     </div>
   </div>
 </template>
@@ -37,7 +44,7 @@ export default {
   },
   data() {
     return {
-      title: "",
+      title: "أَلشَّمْسُ",
       paragraphNumber: 0,
       sentenceNumber: 0,
       sentenceText: "",
@@ -69,9 +76,33 @@ export default {
           });
       }
     },
+    getText() {
+      this.axios
+        .get("/controllers/game", {
+          params: {
+            gameMode: "bookMode",
+            gameSection: this.title,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.sentenceOrg = res.data;
+        })
+        .catch((error) => {
+          console.log("エラーです");
+          console.log(error);
+        });
+    },
   },
 };
 </script>
 
 <style>
+.checkText p {
+  font-size: 50px;
+}
+input {
+  text-align: center;
+  font-size: 100%;
+}
 </style>
