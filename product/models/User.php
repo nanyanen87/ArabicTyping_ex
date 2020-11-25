@@ -18,31 +18,38 @@ class User
     }
     //POSTのValidate。
     if (!$email = filter_var($e, FILTER_VALIDATE_EMAIL)) {
-      echo '入力された値が不正です。';
-      return false;
+      $response["message"] = '入力された値が不正です。';
+      $response["code"] = 400;
+      return $response;
     }
     //パスワードの正規表現
     if (preg_match('/\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}+\z/i', $p)) {
       $password = password_hash($p, PASSWORD_DEFAULT);
     } else {
-      echo 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
-      return false;
+      $response["message"] = 'パスワードは半角英数字をそれぞれ1文字以上含んだ8文字以上で設定してください。';
+      $response["code"] = 400;
+      return $response;
     }
     //登録処理
     try {
       $stmt = $pdo->prepare("insert into userData(email, password) values(?, ?)");
       $stmt->execute([$email, $password]);
-      echo '登録完了';
-      //loginして元のページに戻る
+      //同じメールアドレスを登録できてしまう？
+      $response["message"] = '登録完了';
+      $response["code"] = 200;
+      return $response;
+      //todo loginして元のページに戻る
     } catch (\Exception $e) {
-      echo '登録済みのメールアドレスです。';
+      $response["message"] = '登録済みのメールアドレスです。';
+      $response["code"] = 400;
+      return $response;
     }
   }
 
   public function login($email, $password)
   {
     require_once(__DIR__ . '/../data/config.php');
-    $response = [];
+    // $response = [];
     session_start();
     //POSTのvalidate
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

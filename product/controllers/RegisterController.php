@@ -9,5 +9,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $book = new Book($title);
   $book->insertSentence($paraNum, $senNum, $sentenceText);
   echo "[" . $sentenceText . "]が届いたぜよ。";
-  return;
 }

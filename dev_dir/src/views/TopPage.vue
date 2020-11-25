@@ -44,8 +44,8 @@
       </div>
       <div class="gameOptionWrapper">
         <div class="keyboard">
-          <p @click="setKeyboard" class="button" id="mac">>mac</p>
-          <p @click="setKeyboard" class="button" id="ibm">ibm</p>
+          <p @click="setKeyboard" id="mac">>mac</p>
+          <p @click="setKeyboard" id="ibm">ibm</p>
         </div>
         <div class="sound">
           <p @click="switchSound" class="isSound">Sound:OFF</p>
@@ -74,19 +74,8 @@ export default {
       userName: "",
     };
   },
-  beforeMount: function () {
-    //session確認
-    this.axios
-      .get("/controllers/session")
-      .then((res) => {
-        this.userName = res.data.userName;
-        //ここでheaderの中身を変更する？
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
   mounted: function () {
+    //materializeのjs初期化
     M.AutoInit();
     document.addEventListener("DOMContentLoaded", function () {
       var elems = document.querySelectorAll(".collapsible");
@@ -95,6 +84,7 @@ export default {
       });
       instance;
     });
+    this.session();
   },
   components: {
     Header,
@@ -107,7 +97,6 @@ export default {
       console.log("over");
     },
     mouseLeave(modeName) {
-      //todo clickじゃなくてcollapsibleを閉じる必要ある
       document.getElementById(`${modeName}`).click();
       console.log("leave");
     },
@@ -134,7 +123,6 @@ export default {
       } else {
         mac.innerText = "mac";
       }
-      console.log(this.keyboard);
     },
     switchSound(e) {
       this.gameSound = !this.gameSound;
@@ -143,6 +131,18 @@ export default {
       } else if (this.gameSound === true) {
         e.target.textContent = "Sound:ON";
       }
+    },
+    session() {
+      this.axios
+        .get("/controllers/session")
+        .then((res) => {
+          if (res.data.session) {
+            this.userName = res.data.userName;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
@@ -195,6 +195,7 @@ export default {
 .keyboard p {
   padding: 0 5px;
   margin: 10px;
+  cursor: pointer;
 }
 .button {
   cursor: pointer;

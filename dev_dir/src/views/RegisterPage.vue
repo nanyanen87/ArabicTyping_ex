@@ -30,8 +30,7 @@
       <p>{{ sentenceText }}</p>
     </div>
     <div>
-      <p>データベース内容表示</p>
-      <button @click="getText">内容チェック</button>
+      <button @click="getText">consoleに表示</button>
     </div>
   </div>
 </template>
@@ -44,7 +43,7 @@ export default {
   },
   data() {
     return {
-      title: "أَلشَّمْسُ",
+      title: "",
       paragraphNumber: 0,
       sentenceNumber: 0,
       sentenceText: "",

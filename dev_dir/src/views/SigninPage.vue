@@ -57,10 +57,13 @@ export default {
         this.axios
           .post("/controllers/signin", params)
           .then((res) => {
-            alert(res.data);
-            console.log(res.data);
-            //ここで場合わけ。ログインできなかったら警告文、できたらログインマーク消す
-            // sessionで管理したい
+            if (res.data.code === 200) {
+              console.log(res.data.message);
+              this.$router.push(URL);
+            } else {
+              alert(res.data.message);
+              console.log(res.data.message);
+            }
           })
           .catch((error) => {
             console.log("エラーです");

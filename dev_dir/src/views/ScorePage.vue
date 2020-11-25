@@ -22,7 +22,6 @@
 
 <script>
 import Header from "../components/Header";
-// import M from "materialize-css";
 export default {
   name: "ScorePage",
   date() {
@@ -36,7 +35,6 @@ export default {
     Header,
   },
   mounted: function () {
-    // M.AutoInit();
     this.retryGame();
   },
   methods: {
@@ -110,5 +108,6 @@ span {
 a {
   border: thin solid #fd9f30;
   margin: 0 20px;
+  color: #fd9f30;
 }
 </style>
