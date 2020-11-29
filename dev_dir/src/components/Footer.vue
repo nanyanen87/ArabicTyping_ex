@@ -20,7 +20,7 @@ export default {
         const res = await this.axios.get("/controllers/session");
         console.log(res.data.session);
         //セキュリティガバガバ？
-        if (res.data.userName === "example@gmail.com") {
+        if (res.data.userName === "nan.hanaoka@gmail.com") {
           this.$router.push(`/register`);
         } else {
           //todo ログインしたらResultをデータベースに登録する、つまり値保持する必要がある
