@@ -35,13 +35,17 @@ if ($call[0] === "controllers") {
   } else {
     echo "そんなファイルはありません";
   }
+} else {
+  //SPA用PATH、応急処置すぎるnginx側でリダイレクト二種類のやり方がわからん
+  var_dump($call[1]);
+  if ($call[1] === null) {
+    $filePath = "/" . $call[0] . "?" . $pathAndQuery;
+  } else {
+    $filePath = "/" . $call[0] . "/" . $call[1] . "?" . $pathAndQuery;
+  }
+  if (file_exists(__DIR__ . $filePath)) {
+    include(__DIR__ .  $filePath);
+  } else {
+    echo "そんなファイルはありません";
+  }
 }
-//modelはcontrollerで呼び出すからここでは必要ないかな？
-// elseif($call[0]==="models"){
-//   $fileName = ucwords($call[1]).".php";
-//   if (file_exists(__DIR__."/../models/".$fileName)){
-//     include(__DIR__."/../models/".$fileName);
-//   } else {
-//     echo "そんなファイルはありません";
-//   }
-// }
