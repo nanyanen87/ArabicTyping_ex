@@ -36,7 +36,7 @@ if ($call[0] === "controllers") {
     echo "そんなファイルはありません";
   }
 }
-//URLを直接指定して使うのであれば必要ないコード。
+//modelはcontrollerで呼び出すからここでは必要ないかな？
 // elseif($call[0]==="models"){
 //   $fileName = ucwords($call[1]).".php";
 //   if (file_exists(__DIR__."/../models/".$fileName)){

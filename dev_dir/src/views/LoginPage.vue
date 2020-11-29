@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <h1>ログイン画面</h1>
+    <h3>ログイン画面</h3>
     <div>
       <form @submit.prevent="checkForm" method="post">
         <p v-if="errors.length">

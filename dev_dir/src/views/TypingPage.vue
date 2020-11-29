@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import soundPath from "../assets/sound/blip02.mp3";
+import soundPath1 from "../assets/sound/blip02.mp3";
+import soundPath2 from "../assets/sound/clearSound.mp3";
 export default {
   name: "TypingPage",
   data() {
@@ -75,10 +76,12 @@ export default {
   },
   components: {},
   methods: {
-    //関数型コンポーネントにした方が良さげ？
     waitGame() {
-      document.addEventListener("keydown", (e) => {
-        if (e.code === "Space") {
+      let firstExecute = true;
+      document.addEventListener("keyup", (e) => {
+        if (firstExecute && e.code === "Space") {
+          //一度だけ。
+          firstExecute = false;
           console.log("start");
           this.startGame();
         }
@@ -104,11 +107,13 @@ export default {
     async startGame() {
       this.waiting = false;
       this.score.startTime = await new Date();
-      const missSound = await new Audio(soundPath);
+      const missSound = await new Audio(soundPath1);
+      const clearSound = await new Audio(soundPath2);
       console.log(this.gameOption.sound);
       if (!this.gameOption.sound) {
         console.log("音量ゼロ");
         missSound.volume = 0;
+        clearSound.volume = 0;
       }
       let nowCharLocation = 0;
       let nowQuestion = 0;
@@ -136,6 +141,7 @@ export default {
           this.nowSentence = this.sentenceOrg[nowQuestion];
           this.inputSentence = "";
           nowCharLocation = 0;
+          clearSound.play();
         }
         if (this.sentenceOrg.length === nowQuestion) {
           this.endGame(missCounts, correctCounts);

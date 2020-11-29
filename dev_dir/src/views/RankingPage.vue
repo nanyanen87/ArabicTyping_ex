@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <h1>ランキング</h1>
+    <h3>ランキング</h3>
     <p>あなたのスコアは{{ resultScore }}</p>
   </div>
 </template>
