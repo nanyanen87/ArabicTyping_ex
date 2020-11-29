@@ -67,6 +67,7 @@ export default {
             if (res.data.code === 200) {
               //todo リザルトデータをデータベースに登録して、ランキングページに移動
               //データベース登録処理
+              console.log(res.data.message);
               const URL = this.nextPage + `?resultScore=${this.resultScore}`;
               this.$router.push(URL);
             } else {

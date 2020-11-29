@@ -36,6 +36,7 @@ export default {
       .get("/controllers/session")
       .then((res) => {
         this.sessionStart = res.data.session;
+        console.log(res.data.userName + "がログインしました");
       })
       .catch((error) => {
         console.log(error);
