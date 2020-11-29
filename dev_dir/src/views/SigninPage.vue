@@ -58,8 +58,8 @@ export default {
           .post("/controllers/signin", params)
           .then((res) => {
             if (res.data.code === 200) {
+              alert(res.data.message);
               console.log(res.data.message);
-              this.$router.push(URL);
             } else {
               alert(res.data.message);
               console.log(res.data.message);

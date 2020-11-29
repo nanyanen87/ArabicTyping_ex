@@ -9,8 +9,8 @@ class User
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $pdo->exec("create table if not exists userData(
         id int not null auto_increment primary key,
-        email nvarchar(255),
-        password nvarchar(255),
+        email nvarchar(255) unique not null,
+        password nvarchar(255) not null,
         created timestamp not null default current_timestamp
       )");
     } catch (Exception $e) {
@@ -34,7 +34,6 @@ class User
     try {
       $stmt = $pdo->prepare("insert into userData(email, password) values(?, ?)");
       $stmt->execute([$email, $password]);
-      //同じメールアドレスを登録できてしまう？
       $response["message"] = '登録完了';
       $response["code"] = 200;
       return $response;
