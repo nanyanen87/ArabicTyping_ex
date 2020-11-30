@@ -86,7 +86,8 @@ export default {
         "https://twitter.com/intent/tweet?text=あなたのスコアは" +
         this.resultScore +
         "でした" +
-        "&hashtags=arabictyping";
+        "&hashtags=arabictyping" +
+        "&url=https://nanyanenvh2.xyz/";
       location.href = shareURL;
     },
     createUrl() {
