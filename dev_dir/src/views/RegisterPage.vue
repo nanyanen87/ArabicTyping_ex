@@ -49,7 +49,24 @@ export default {
       sentenceText: "",
     };
   },
+  mounted() {
+    this.checkUser();
+  },
   methods: {
+    async checkUser() {
+      try {
+        const res = await this.axios.get("/controllers/session");
+        console.log(res.data.session);
+        if (res.data.userName === "nan.hanaoka@gmail.com") {
+          console.log("ok");
+        } else {
+          this.$router.push("/");
+          alert("no direct url!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     registerText() {
       if (
         this.title === "" ||

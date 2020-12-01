@@ -23,7 +23,6 @@ export default {
         if (res.data.userName === "nan.hanaoka@gmail.com") {
           this.$router.push(`/register`);
         } else {
-          //todo ログインしたらResultをデータベースに登録する、つまり値保持する必要がある
           alert("権限がありません");
         }
       } catch (error) {
